@@ -69,15 +69,11 @@ const Overview = ({ health, status, summary, prevIndexPrice }) => {
                 <span>{status?.strategy_state?.last_index_price ?? "—"}</span>
               </div>
               <div className="flex items-center justify-between rounded-2xl bg-slate-900/90 px-4 py-3">
-                <span className="text-slate-400">Call ratio</span>
+                <span className="text-slate-400">Allowed ratios</span>
                 <span>
-                  {status?.strategy_state?.call_ratio?.status ?? "Not detected"}
-                </span>
-              </div>
-              <div className="flex items-center justify-between rounded-2xl bg-slate-900/90 px-4 py-3">
-                <span className="text-slate-400">Put ratio</span>
-                <span>
-                  {status?.strategy_state?.put_ratio?.status ?? "Not detected"}
+                  {status?.strategy_state?.allowed_ratio_spreads?.length
+                    ? status.strategy_state.allowed_ratio_spreads.join(", ")
+                    : "—"}
                 </span>
               </div>
             </div>

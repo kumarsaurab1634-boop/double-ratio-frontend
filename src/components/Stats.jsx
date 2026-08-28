@@ -9,6 +9,12 @@ const Stats = ({ summary, prevIndexPrice, status }) => {
   const renderValue = (key) => {
     if (key === "running") return status?.running ? "Running" : "Stopped";
     if (key === "unrealized_pnl") return formatPnl(summary?.unrealized_pnl);
+    if (key === "trigger_pnl")
+      return formatPnl(status?.strategy_state?.trigger_pnl);
+    if (key === "profit_exit_threshold_usd")
+      return formatPnl(summary?.profit_exit_threshold_usd);
+    if (key === "loss_exit_threshold_usd")
+      return formatPnl(summary?.loss_exit_threshold_usd);
     return summary[key] ?? "-";
   };
   return (
@@ -23,8 +29,12 @@ const Stats = ({ summary, prevIndexPrice, status }) => {
           </p>
           <p
             className={`mt-4 text-3xl font-semibold ${
-              card.key === "unrealized_pnl"
-                ? getPnlClass(summary?.unrealized_pnl)
+              card.key === "unrealized_pnl" || card.key === "trigger_pnl"
+                ? getPnlClass(
+                    card.key === "unrealized_pnl"
+                      ? summary?.unrealized_pnl
+                      : status?.strategy_state?.trigger_pnl,
+                  )
                 : card.key === "index_price"
                   ? getIndexPriceClass(summary?.index_price, prevIndexPrice)
                   : "text-white"
